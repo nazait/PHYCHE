@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>EASY PHYCHE</title>
+    <link rel="stylesheet" href="PHYCHE.css">
+
+</head>
+  <body>
+    <section id="header">
+      <a href="#"><img src="./LOOGO.png" class="logo" alt=""></a>
+      <div>
+          <ul id="navbar">
+              <li><a  href="PHYCHE.html">Accueil</a></li>
+              <li ><a href="chaine youtube.html">chaine youtube</a></li>
+              <li><a class="active" href="Contact.html">Contact</a></li>
+          </ul>
+      </div>
+      </div>
+  </section>
+    <form action="https://formspree.io/f/movwvbjl" method="POST">
+      <h1>Contactez-nous</h1>
+      <div class="separation"></div>
+      <div class="corps-formulaire">
+        <div class="gauche">
+          <div class="groupe">
+            <label>Votre Prénom</label>
+            <input type="text" name="prenom" id="prenom" placeholder="Entrez votre prénom" required>
+            <i class="fas fa-user"></i>
+          </div>
+          <div class="groupe">
+            <label>Votre adresse e-mail</label>
+            <input type="email" name="email" id="email" placeholder="exemple@gmail.com" required>
+            <i placeholder="@gmail.com" class="fas fa-envelope"></i>
+          </div>
+          <div class="groupe">
+            <label>Votre téléphone</label>
+            <input type="tel" name="telephone" id="telephone" placeholder="0601020304">
+            <i class="fas fa-mobile"></i>
+          </div>
+        </div>
+
+        <div class="droite">
+          <div class="groupe">
+            <label>Message</label>
+            <textarea name="message" id="message" placeholder="Saisissez ici..." required></textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="pied-formulaire" align="center">
+        <button>Envoyer le message</button>
+      </div>
+      <input type="hidden" name="_captcha" value="false">
+      <input type="hidden" name="file:///C:/Users/aitel/OneDrive/Desktop/PHYCHE/merci.html" value="merci.html">
+    </form>
+    <script>
+  const form = document.querySelector("form");
+  form.addEventListener("submit", function (e) {
+    setTimeout(() => {
+      form.reset();
+    }, 100);
+  });
+</script>
+  </body>
+</html>

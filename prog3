@@ -1,0 +1,39 @@
+% *******************************************************
+% Génération d'un signal de deux composantes
+% noyé dans un bruit et calcul de sa densité spectrale
+% *******************************************************
+
+% Définition du vecteur temps (601 points, pas de 0.001 s)
+t = 0:0.001:0.6;
+
+% Superposition de deux sinusoïdes : 100 Hz et 150 Hz
+x = sin(2*pi*100*t) + 2*sin(2*pi*150*t);
+
+% Ajout de bruit blanc gaussien
+y = x + randn(size(t));  % bruit de moyenne 0 et variance 1
+
+% Affichage des 200 premiers échantillons du signal bruité
+clf
+plot(t(1:200), y(1:200), '.-')
+xlabel('t (s)')
+ylabel('y(t)')
+title('Signal bruité dans le temps')
+pause
+
+% Calcul de la transformée de Fourier de y(t)
+Y = fft(y, 512);
+
+% Calcul de la densité spectrale de puissance
+Pyy = Y .* conj(Y) / 512;
+
+% Conservation de la moitié utile du spectre (0 à 500 Hz)
+Pyy(257:512) = [];             % Suppression de la partie symétrique
+f = (0:255) * 1000 / 512;      % Axe des fréquences (Hz)
+
+% Affichage de la densité spectrale
+figure(2)
+plot(f, Pyy, 'm')
+xlabel('Fréquence (Hz)')
+ylabel('Densité spectrale')
+title('Densité spectrale du signal bruité')
+grid on

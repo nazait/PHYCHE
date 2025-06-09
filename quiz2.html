@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>PHYCHE</title>
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" />
+    <link rel="stylesheet" href="PHYCHE.css">
+
+</head>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f2f2f2;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <section id="header">
+        <a href="#"><img src="./LOOGO.png" class="logo" alt=""></a>
+        <div>
+            <ul id="navbar">
+                <li><a class="active" href="PHYCHE.html">Accueil</a></li>
+                <li ><a  href="chaine youtube.html">chaine youtube</a></li>
+                <li><a href="Contact.html">Contact</a></li>
+            </ul>
+        </div>
+        </div>
+    </section>
+
+  <!-- ÉTAPE 1 : Formulaire étudiant -->
+  <div id="login" class="container">
+    <h2>Connexion Étudiant</h2>
+    <input type="text" id="prenom" placeholder="Prénom" required><br>
+    <input type="text" id="nom" placeholder="Nom" required><br>
+    <input type="text" id="niveau" placeholder="Niveau scolaire (ex: 3ème année collège)" required><br>
+    <input type="text" id="classe" placeholder="Classe" required><br>
+    <input type="text" id="massar" placeholder="Code Massar" required><br>
+    <button onclick="demarrerQuiz()">Connexion</button>
+  </div>
+
+  <div id="infosEtudiant" style="margin-bottom: 20px; margin-top: 40px; font-weight: bold;"></div>
+
+  <div id="timer" style="font-weight: bold; margin-bottom: 10px;"></div>
+
+  <!-- ÉTAPE 2 : Quiz -->
+  <div id="quiz" class="quiz-container" style="display: none;">
+    <div id="question" class="question"></div>
+    <div id="answers" class="answers"></div>
+    <div id="result"></div>
+  </div>
+
+  <script>
+    let timer;
+    let timeLeft = 20;
+
+    const quiz = [
+  {
+    question: "Quelle proportion de la surface de la Terre est recouverte par l’eau ?",
+    answers: ["Environ la moitié", "Environ 3/4", "Environ 10 %", "100 %"],
+    correct: "Environ 3/4"
+  },
+  {
+    question: "Pourquoi l’eau est-elle importante pour les êtres humains ?",
+    answers: ["Elle est utilisée pour la décoration", "Elle est indispensable à la vie", "Elle sert uniquement à laver", "Elle est toxique pour le corps humain"],
+    correct: "Elle est indispensable à la vie"
+  },
+  {
+    question: "Comment appelle-t-on l’ensemble des réserves d’eau sur la Terre ?",
+    answers: ["L’atmosphère", "L’hydrosphère", "La lithosphère", "La biosphère"],
+    correct: "L’hydrosphère"
+  },
+  {
+    question: "Sous quelle forme l’eau est-elle présente dans l’atmosphère ?",
+    answers: ["Glace", "Pluie solide", "Vapeur d’eau", "Neige"],
+    correct: "Vapeur d’eau"
+  },
+  {
+    question: "Le passage de l’état solide à l’état liquide s’appelle :",
+    answers: ["L’évaporation", "La solidification", "La fusion", "La liquéfaction"],
+    correct: "La fusion"
+  },
+  {
+    question: "Le passage de l’état liquide à l’état gazeux s’appelle :",
+    answers: ["La fusion", "L’évaporation", "La liquéfaction", "La sublimation"],
+    correct: "L’évaporation"
+  },
+  {
+    question: "Quelle substance permet de détecter la présence d’eau ?",
+    answers: ["Nitrate d’argent", "Sulfate de cuivre anhydre", "Acide chlorhydrique", "Chlorure de sodium"],
+    correct: "Sulfate de cuivre anhydre"
+  },
+  {
+    question: "Que devient le sulfate de cuivre anhydre en présence d’eau ?",
+    answers: ["Il devient rouge", "Il devient noir", "Il devient bleu", "Il reste blanc"],
+    correct: "Il devient bleu"
+  },
+  {
+    question: "Quelle substance permet de détecter la présence d’eau dans les aliments ?",
+    answers: ["Nitrate d’argent", "Sulfate de cuivre anhydre", "Chlorure de sodium", "Acide sulfurique"],
+    correct: "Sulfate de cuivre anhydre"
+  },
+  {
+    question: "Que se passe-t-il lorsque le sulfate de cuivre anhydre entre en contact avec un aliment contenant de l’eau ?",
+    answers: ["Il devient rouge", "Il devient blanc", "Il devient bleu", "Il dégage une odeur"],
+    correct: "Il devient bleu"
+  },
+  {
+    question: "Comment appelle-t-on l’ensemble des réserves d’eau sur la Terre ?",
+    answers: ["L’atmosphère", "L’hydrosphère", "La lithosphère", "La cryosphère"],
+    correct: "L’hydrosphère"
+  },
+  {
+    question: "Quelle proportion de la surface de la Terre est recouverte d’eau ?",
+    answers: ["10 %", "50 %", "70 %", "90 %"],
+    correct: "70 %"
+  },
+  {
+    question: "Quel est l’autre nom donné à la surface d’eau sur Terre ?",
+    answers: ["L’océan", "La mer", "L’hydrosphère", "La planète bleue"],
+    correct: "La mer"
+  },
+  {
+    question: "De quelle couleur est le sulfate de cuivre anhydre ?",
+    answers: ["Bleu", "Blanc", "Rouge", "Vert"],
+    correct: "Blanc"
+  },
+  {
+    question: "Quels sont les trois états physiques de l’eau ?",
+    answers: ["Solide, liquide et gazeux", "Froid, chaud et tiède", "Mou, dur et fluide", "Gel, neige et pluie"],
+    correct: "Solide, liquide et gazeux"
+  },
+  {
+    question: "En présence d’eau, le sulfate de cuivre anhydre devient :",
+    answers: ["Blanc", "Bleu", "Rouge", "Jaune"],
+    correct: "Bleu"
+  },
+  {
+    question: "Comment s’appelle le passage de l’eau liquide à l’état gazeux ?",
+    answers: ["Liquéfaction", "Évaporation", "Condensation", "Fusion"],
+    correct: "Évaporation"
+  },
+  {
+    question: "Comment s’appelle le passage de l’eau solide à l’eau liquide ?",
+    answers: ["Solidification", "Condensation", "Fusion", "Liquéfaction"],
+    correct: "Fusion"
+  },
+  {
+    question: "Quand la vapeur d’eau passe à l’état liquide, cela s’appelle :",
+    answers: ["Sublimation", "Fusion", "Condensation", "Évaporation"],
+    correct: "Condensation"
+  },
+  {
+    question: "Quelle est la couleur du sulfate de cuivre utilisé pour détecter l’eau ?",
+    answers: ["Anhydre", "Rouge", "Bleu", "Vert"],
+    correct: "Bleu"
+  },
+  {
+    question: "Quel est le pourcentage d’eau dans le corps humain ?",
+    answers: ["30 %", "50 %", "70 %", "90 %"],
+    correct: "70 %"
+  },
+  {
+    question: "Parmi les grands réservoirs d’eau, on trouve :",
+    answers: ["Le désert", "Les océans", "Les volcans", "Les montagnes"],
+    correct: "Les océans"
+  },
+  {
+    question: "Le principal constituant des boissons est :",
+    answers: ["Le sucre", "Le gaz", "L’eau", "Les colorants"],
+    correct: "L’eau"
+  },
+  {
+    question: "Le cycle de l’eau est un échange entre :",
+    answers: ["L’atmosphère et la Terre", "Les océans et les animaux", "Les plantes et les rivières", "Les glaciers et les volcans"],
+    correct: "L’atmosphère et la Terre"
+  }
+    ];
+
+    let currentQuestion = 0;
+    let score = 0;
+    let etudiant = {};
+
+    function demarrerQuiz() {
+      // Récupération des données étudiant
+      etudiant = {
+        prenom: document.getElementById("prenom").value,
+        nom: document.getElementById("nom").value,
+        niveau: document.getElementById("niveau").value,
+        classe: document.getElementById("classe").value,
+        massar: document.getElementById("massar").value
+      };
+
+      // Vérifie que tous les champs sont remplis
+      if (!etudiant.nom || !etudiant.prenom || !etudiant.niveau || !etudiant.classe || !etudiant.massar) {
+        alert("Veuillez remplir toutes les informations.");
+        return;
+      }
+
+      // Affiche les infos de l’étudiant en haut
+  document.getElementById("infosEtudiant").innerHTML = 
+    `Étudiant : ${etudiant.prenom} ${etudiant.nom} | Niveau : ${etudiant.niveau} | Classe : ${etudiant.classe} | Code Massar : ${etudiant.massar}`;
+
+      document.getElementById("login").style.display = "none";
+      document.getElementById("quiz").style.display = "block";
+      showQuestion();
+    }
+
+    function showQuestion() {
+  const q = quiz[currentQuestion];
+  document.getElementById("question").textContent = q.question;
+
+  const answersDiv = document.getElementById("answers");
+  answersDiv.innerHTML = "";
+  document.getElementById("result").textContent = "";
+
+  // Réinitialise le timer
+  clearInterval(timer);
+  timeLeft = 20;
+  document.getElementById("timer").textContent = `Temps restant : ${timeLeft}s`;
+
+  timer = setInterval(() => {
+    timeLeft--;
+    document.getElementById("timer").textContent = `Temps restant : ${timeLeft}s`;
+
+    if (timeLeft <= 0) {
+      clearInterval(timer);
+      passerQuestion();
+    }
+  }, 1000);
+
+  q.answers.forEach(answer => {
+    const btn = document.createElement("button");
+    btn.textContent = answer;
+    btn.onclick = () => checkAnswer(answer, btn);
+    answersDiv.appendChild(btn);
+  });
+}
+
+
+    function checkAnswer(selectedAnswer, selectedBtn) {
+  clearInterval(timer); // ⏹️ Stop le timer
+
+  const q = quiz[currentQuestion];
+  const allButtons = document.querySelectorAll("#answers button");
+
+  allButtons.forEach(button => {
+    button.disabled = true;
+    if (button.textContent === q.correct) {
+      button.style.backgroundColor = "lightgreen";
+    } else {
+      button.style.backgroundColor = "#f8d7da";
+    }
+  });
+
+  if (selectedAnswer === q.correct) {
+    score++;
+  } else {
+    selectedBtn.style.backgroundColor = "#f44336";
+  }
+
+  setTimeout(() => {
+    currentQuestion++;
+    if (currentQuestion < quiz.length) {
+      showQuestion();
+    } else {
+      showResult();
+    }
+  }, 1500);
+}
+
+function passerQuestion() {
+  const q = quiz[currentQuestion];
+  const allButtons = document.querySelectorAll("#answers button");
+
+  allButtons.forEach(button => {
+    button.disabled = true;
+    if (button.textContent === q.correct) {
+      button.style.backgroundColor = "lightgreen";
+    } else {
+      button.style.backgroundColor = "#f8d7da";
+    }
+  });
+
+  setTimeout(() => {
+    currentQuestion++;
+    if (currentQuestion < quiz.length) {
+      showQuestion();
+    } else {
+      showResult();
+    }
+  }, 1500);
+}
+
+function enregistrerResultat() {
+  // Récupérer les anciens résultats du localStorage
+  const anciensResultats = JSON.parse(localStorage.getItem("resultats")) || [];
+
+  // Ajouter le nouveau résultat
+  anciensResultats.push({
+    prenom: etudiant.prenom,
+    nom: etudiant.nom,
+    score: `${score}/${quiz.length}`
+  });
+
+  // Sauvegarder à nouveau dans le localStorage
+  localStorage.setItem("resultats", JSON.stringify(anciensResultats));
+
+  // Afficher le tableau
+  afficherTableau(anciensResultats);
+}
+
+
+
+    function showResult() {
+      document.getElementById("question").textContent = "Quiz terminé !";
+      document.getElementById("answers").innerHTML = "";
+      const message = `Score : ${score}/${quiz.length}`;
+      document.getElementById("result").textContent = message;
+
+      // Crée un message complet avec les infos
+      const msg = `Prénom: ${etudiant.prenom}
+Nom: ${etudiant.nom}
+Niveau: ${etudiant.niveau}
+Classe: ${etudiant.classe}
+Code Massar: ${etudiant.massar}
+Score: ${score}/${quiz.length}`;
+
+      // Envoi via fetch sans changer de page
+fetch("https://formspree.io/f/movwvbjl", {
+  method: "POST",
+  headers: {
+    'Content-Type': 'application/json',
+    'Accept': 'application/json'
+  },
+  body: JSON.stringify({
+    email: "boocebarca20172@gmail.com",
+    message: msg
+  })
+})
+.then(response => {
+  if (response.ok) {
+    console.log("Score envoyé avec succès !");
+  } else {
+    console.error("Erreur lors de l’envoi du score.");
+  }
+});
+
+  enregistrerResultat();
+
+  // Sauvegarder l'étudiant dans localStorage
+let classement = JSON.parse(localStorage.getItem("classementQuiz")) || [];
+classement.push({
+  nomComplet: `${etudiant.prenom} ${etudiant.nom}`,
+  score: score
+});
+localStorage.setItem("classementQuiz", JSON.stringify(classement));
+
+// Affiche le classement
+document.getElementById("classement").style.display = "block";
+
+classement.sort((a, b) => b.score - a.score); // tri par score décroissant
+
+const tableau = document.getElementById("tableauClassement");
+tableau.innerHTML = ""; // vider avant
+
+classement.forEach((etudiant, index) => {
+  const ligne = document.createElement("tr");
+  ligne.innerHTML = `
+    <td>${index + 1}</td>
+    <td>${etudiant.nomComplet}</td>
+    <td>${etudiant.score}</td>
+  `;
+  tableau.appendChild(ligne);
+});
+
+// Affiche un podium simple
+const podiumDiv = document.getElementById("podium");
+const top3 = classement.slice(0, 3);
+let podiumHTML = "";
+if (top3[0]) podiumHTML += `🥇 ${top3[0].nomComplet} (${top3[0].score})<br>`;
+if (top3[1]) podiumHTML += `🥈 ${top3[1].nomComplet} (${top3[1].score})<br>`;
+if (top3[2]) podiumHTML += `🥉 ${top3[2].nomComplet} (${top3[2].score})<br>`;
+podiumDiv.innerHTML = podiumHTML;
+
+
+
+
+    }
+    function afficherTableau(resultats) {
+  const corpsTableau = document.getElementById("corpsTableau");
+  corpsTableau.innerHTML = "";
+
+  // Trier les résultats par score décroissant
+  resultats.sort((a, b) => {
+    // Extraire le score numérique (ex: "3/5" → 3)
+    const scoreA = parseInt(a.score.split("/")[0]);
+    const scoreB = parseInt(b.score.split("/")[0]);
+    return scoreB - scoreA; // ordre décroissant
+  });
+
+  // Afficher les résultats avec classement
+  resultats.forEach((etud, index) => {
+    const ligne = document.createElement("tr");
+    ligne.innerHTML = `
+      <td>${index + 1}</td>
+      <td>${etud.prenom}</td>
+      <td>${etud.nom}</td>
+      <td>${etud.score}</td>
+    `;
+    corpsTableau.appendChild(ligne);
+  });
+
+  document.getElementById("tableauResultats").style.display = "block";
+}
+
+
+  </script>
+
+  <!-- Résultats enregistrés (tableau localStorage) -->
+<div id="tableauResultats" style="display:none; margin-top: 40px;">
+  <h2>📊 Résultats des étudiants précédents</h2>
+  <table border="1" style="width:100%; border-collapse: collapse;">
+    <thead>
+      <tr>
+        <th>Rang</th>
+        <th>Prénom</th>
+        <th>Nom</th>
+        <th>Score</th>
+      </tr>
+    </thead>
+    <tbody id="corpsTableau">
+      <!-- Les résultats s'ajouteront ici dynamiquement -->
+    </tbody>
+  </table>
+</div>
+
+
+  <!-- Podium visuel -->
+  <div id="podium" style="margin-top: 20px; font-size: 1.5em;"></div>
+</div>
+
+
+
+</body>
+</html>
